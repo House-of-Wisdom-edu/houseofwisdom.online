@@ -13,7 +13,7 @@ if (authToken) {
 
 
 
-const apiUrl = `http://127.0.0.1:5001/authentication-9e325/us-central1/v1/users/user`;
+const apiUrl = `https://houseofwisdom.onrender.com/users/user`;
 
 fetch(apiUrl, {
     method: 'GET',

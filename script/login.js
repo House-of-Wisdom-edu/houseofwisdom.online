@@ -23,17 +23,32 @@ document.getElementById("btnSubmit").addEventListener("click", function () {
     event.preventDefault();
     var email = document.getElementById("registerEmail").value;
     var password = document.getElementById("registerPassword").value;
+    var FullName = document.getElementById("fullName").value;
     var confirmPassword = document.getElementById("confirm-password").value;
     if (password !== confirmPassword) {
         console.error("Passwords do not match.");
         alert("Passwords don't match");
         return;
     }
-    createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+    createUserWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        const authToken = await userCredential.user.getIdToken();
+        const userId = user.uid;
+        const fullName = FullName;
+        const email = user.email;
+        const photourl = user?.photoURL;
+
+        await setDoc(doc(db, "users", userId), {
+            fullName: fullName,
+            userId: userId,
+            email: email,
+            photourl: photourl,
+        }).catch((error) => {
+            const errorCode = error.code;
+            console.log(error.message)
+        })
         alert("Registration successful");
-        window.location.href = 'login.html'
+        window.location.href = 'index.html?authToken=' + authToken;
     }).catch((err) => {
         const errorCode = err.code;
         const errorMessage = err.message;
@@ -53,7 +68,7 @@ document.getElementById("btnLogIn").addEventListener("click", function () {
         const authToken = await userCredential.user.getIdToken(); // Get the authentication token
         localStorage.setItem('authToken', authToken);
         alert(user.email + " Login Successfully");
-        window.location.href = 'index.html';
+        window.location.href = 'index.html?authToken=' + authToken;
     }).catch((err) => {
         const errorCode = err.code;
         const errorMessage = err.message;
@@ -67,11 +82,7 @@ document.getElementById("btnGoogleLogin").addEventListener("click", async () => 
     signInWithPopup(auth, provider)
         .then(async (result) => {
             const user = result.user;
-            const authToken = await user.getIdToken(); // Get the authentication token
-            // Replace 'authToken' and 'yourAuthTokenHere' with your token variable and value.
-            // Assume you have a JWT token
-
-
+            const authToken = await user.getIdToken();
             // Decode the JWT token to get the payload
             const tokenParts = authToken.split('.');
             const encodedPayload = tokenParts[1];
