@@ -29,12 +29,17 @@ document.getElementById("btnSubmit").addEventListener("click", function () {
         alert("Passwords don't match");
         return;
     }
+    var nameArr = FullName.split(' ');
+    var firstName = nameArr[0];
+    var lastName = nameArr[1];
+
+    const apiUrl = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=0D8ABC&color=fff`;
     createUserWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
         const user = userCredential.user;
         const userId = user.uid;
         const fullName = FullName;
         const email = user.email;
-        const photourl = user?.photoURL;
+        const photourl = apiUrl;
 
         await setDoc(doc(db, "users", userId), {
             fullName: fullName,
