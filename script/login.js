@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js"
+import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js"
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 const firebaseConfig = {
     apiKey: "AIzaSyC5616FooIAGd1evh7Hl09eQYT8iUs5UJY",
@@ -15,7 +15,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
-console.log("hii")
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
@@ -30,13 +29,17 @@ document.getElementById("btnSubmit").addEventListener("click", function () {
         alert("Passwords don't match");
         return;
     }
+    var nameArr = FullName.split(' ');
+    var firstName = nameArr[0];
+    var lastName = nameArr[1];
+
+    const apiUrl = `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=0D8ABC&color=fff`;
     createUserWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
         const user = userCredential.user;
-        const authToken = await userCredential.user.getIdToken();
         const userId = user.uid;
         const fullName = FullName;
         const email = user.email;
-        const photourl = user?.photoURL;
+        const photourl = apiUrl;
 
         await setDoc(doc(db, "users", userId), {
             fullName: fullName,
@@ -48,7 +51,7 @@ document.getElementById("btnSubmit").addEventListener("click", function () {
             console.log(error.message)
         })
         alert("Registration successful");
-        window.location.href = 'index.html?authToken=' + authToken;
+        window.location.href = 'login.html'
     }).catch((err) => {
         const errorCode = err.code;
         const errorMessage = err.message;
@@ -63,12 +66,14 @@ document.getElementById("btnLogIn").addEventListener("click", function () {
     var password = document.getElementById("password").value;
 
     signInWithEmailAndPassword(auth, email, password).then(async (userCredential) => {
-        const user = userCredential.user;
+        const user = await userCredential.user;
         // console.log(user);
-        const authToken = await userCredential.user.getIdToken(); // Get the authentication token
-        localStorage.setItem('authToken', authToken);
+        const authToken = await user.getIdToken(); // Get the authentication token
+        const expires = new Date();
+        expires.setTime(expires.getTime() + 1 * 60 * 60 * 1000);
+        document.cookie = `authToken=${authToken}; expires=${expires.toUTCString()}; path=/;`;
         alert(user.email + " Login Successfully");
-        window.location.href = 'index.html?authToken=' + authToken;
+        window.location.href = 'index.html';
     }).catch((err) => {
         const errorCode = err.code;
         const errorMessage = err.message;
@@ -79,32 +84,43 @@ document.getElementById("btnLogIn").addEventListener("click", function () {
 
 
 document.getElementById("btnGoogleLogin").addEventListener("click", async () => {
-    signInWithPopup(auth, provider)
-        .then(async (result) => {
+    try {
+        // Change signInWithPopup to signInWithRedirect
+        await signInWithRedirect(auth, provider);
+    } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+    }
+});
+
+// Handle the redirect result
+getRedirectResult(auth)
+    .then(async (result) => {
+        if (result.user) {
             const user = result.user;
             const authToken = await user.getIdToken();
-            // Decode the JWT token to get the payload
+            // console.log('Auth Token:', authToken);
+
+            // // Decode the JWT token to get the payload
             const tokenParts = authToken.split('.');
             const encodedPayload = tokenParts[1];
             const decodedPayload = atob(encodedPayload);
             const payload = JSON.parse(decodedPayload);
+            // console.log('Decoded Payload:', payload);
 
-            // Check if the payload includes an 'exp' claim (expiration time)
             if (payload.exp) {
-                const expirationTimestamp = payload.exp; // This is the expiration time in seconds since the Unix epoch
-                const expirationDate = new Date(expirationTimestamp * 1000); // Convert to a JavaScript Date object (in milliseconds)
-                document.cookie = `authToken=${authToken}; expires=${expirationDate.toUTCString()}; path=/; secure; HttpOnly`;
+                const expirationTimestamp = payload.exp;
+                const expirationDate = new Date(expirationTimestamp * 1000);
+                console.log(expirationDate)
+                document.cookie = `authToken=${authToken}; expires=${expirationDate.toUTCString()}; path=/;`;
             } else {
                 console.log("Token does not contain an 'exp' claim.");
             }
-
-
-            localStorage.setItem('authToken', authToken);
             const userId = user.uid;
             const fullName = user.displayName;
             const email = user.email;
             const photourl = user.photoURL;
-            console.log(user);
 
             await setDoc(doc(db, "users", userId), {
                 fullName: fullName,
@@ -116,17 +132,15 @@ document.getElementById("btnGoogleLogin").addEventListener("click", async () => 
                 console.log(error.message)
             })
             alert(`${fullName} Login Successfully`)
+            window.location.href = 'index.html';
+        }
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+    });
 
-            // Redirect to the next page with the authToken as a query parameter
-            window.location.href = 'index.html?authToken=' + authToken;
-
-
-        }).catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorMessage)
-        })
-})
 
 document.getElementById("logout").addEventListener("click", function () {
     signOut(auth).then(() => {
