@@ -89,6 +89,11 @@ button {
   outline: none;
   transition: all 0.3s ease 0s;
 }
+
+.navbar_logo {
+  width: 120px;
+}
+
 #srchbtn {
   padding: 9px 20px;
 }
@@ -236,18 +241,30 @@ button {
 }
 
 /*For Responsive Website*/
-@media screen and (max-width: 1366px) {
+/* @media screen and (max-width: 960px) {
   .search {
     display: none;
     margin-bottom: 10px;
   }
-}
+} */
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 960px) {
   .nav ul,
   .nav .search {
     display: none;
   }
+  .search {
+    display: none;
+    margin-bottom: 10px;
+  }
+  .navbar_logo {
+    margin-left: -10px;
+  }
+
+  .nav .switch-tab img {
+    margin-right: 15px;
+  }
+
   .nav #learned-logo {
     transition: 1s ease;
     margin-left: 40%;
