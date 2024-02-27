@@ -1,23 +1,14 @@
-function getCookie(cookieName) {
-    const cookies = document.cookie.split(';');
-
-    for (const cookie of cookies) {
-        const [name, value] = cookie.split('=').map(part => part.trim());
-
-        if (name === cookieName) {
-            return value;
-        }
-    }
-
-    return null;
+function getQueryParam(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
 }
 
-const authToken = getCookie('authToken');
+var authToken = getQueryParam('authToken');
 
 if (authToken) {
-    console.log('Auth Token:', authToken);
+    console.log("Authentication token found: ");
 } else {
-    console.log('Auth Token not found.');
+    console.log("Authentication token not found.");
 }
 
 
