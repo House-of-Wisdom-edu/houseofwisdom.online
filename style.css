@@ -288,6 +288,7 @@ button {
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7)), url("images/extra/animated.gif");
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
   font-family: cursive;
 }
 
@@ -419,6 +420,7 @@ button {
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7)), url("images/extra/animated.gif");
   background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .service-swipe .s-card img {
