@@ -113,6 +113,12 @@ body {
 #register .input-field {
 	color: rgba(0,0,0,0.8);
 }
+
+#other {
+    position: relative;
+    transition: left 0.5s ease, right 0.5s ease;
+}
+
 .submit-btn
 {
 	width: 85%;
