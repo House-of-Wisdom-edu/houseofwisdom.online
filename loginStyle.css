@@ -18,6 +18,7 @@ body {
 .logo img {
 	width: 100px;
 }
+
 .form-box
 {
 	width: 380px;
@@ -33,7 +34,7 @@ body {
 
 .button-box
 {
-	width: 220px;
+	width: 212px;
 	margin: 35px auto;
 	position: relative;
 	box-shadow: 0 0 20px 9px rgba(0,0,0,.1);
@@ -53,7 +54,7 @@ body {
 #btn
 {
 	top: 0;
-	left: 0;
+	left: -7px;
 	position: absolute;
 	width: 110px;
 	height: 100%;
@@ -117,7 +118,7 @@ body {
 	padding: 10px 30px;
 	cursor: pointer;
 	display: block;
-	margin: auto;
+	margin: auto 17px auto auto;
 	background: linear-gradient(to right, #000000, #302f2f);
 	color: #fff;
 	border: 0;

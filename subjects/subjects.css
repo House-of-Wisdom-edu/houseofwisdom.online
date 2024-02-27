@@ -43,6 +43,12 @@ body {
 	box-shadow: 1px 1px 10px rgba(0,0,0,0.5);
 }
 
+.logo img {
+	width: 120px;
+	cursor: pointer;
+	transition: all 1s;
+}
+
 .nav li, a, button
 {
 	float: left;
@@ -126,10 +132,94 @@ body {
 }
 .nav .switch-tab img {
 	width: 20px;
+	margin-right: 20px;
 }
 .nav .check-box {
 	cursor: pointer;
 	visibility: hidden;
+}
+
+/* SIDE MENU */
+.menu {
+	cursor: pointer;
+	width: 25px;
+	display: none;
+}
+
+.side-menu {
+	width: 100%;
+	height: 100%;
+	background: #000000fd;
+	position: absolute;
+	top: 0;
+	transition: .8s;
+	z-index: 2000;
+	transform: translateX(-100%);
+}
+
+.side-menu ul {
+	margin-top: 35%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	/* background: #FA4B37; */
+}
+
+.side-menu ul li {
+	list-style: none;
+	/* background: #009900; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* border-bottom: 1px solid #fff; */
+	/* padding: 10px 0px; */
+}
+
+.side-menu ul li:hover a {
+	background: #fff;
+	color: #ffcc33;
+}
+
+.side-menu ul li a {
+	color: #FFF;
+	width: 100%;
+	font-size: 1em;
+	/* background: #2E3D49; */
+	text-decoration: none;
+	padding: 15px 0px;
+}
+
+.close img {
+	float: right;
+	width: 35px;
+	cursor: pointer;
+	margin: 10px;
+}
+
+.user {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10%;
+}
+
+.user img {
+	width: 60px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	filter: drop-shadow(0 10px 20px #0004);
+	margin-right: 30px;
+	cursor: pointer;
+}
+
+.user p {
+	color: #fff;
+	cursor: pointer;
+}
+
+.user img,
+.user p {
+	opacity: 1;
 }
 
 /*TITLE*/
@@ -427,6 +517,10 @@ footer .footer-container {
 	flex-wrap: wrap-reverse;
 }
 
+#footer-how-logo {
+	width: 500px;
+}
+
 footer .social-media img{
 	width: 22px;
 }
@@ -434,11 +528,11 @@ footer .social-media img{
 footer .logo {
 	width: 180px;
 	color: #fff;
-	font-family: 'Montserrat', cursive;
+	/* font-family: 'Montserrat', cursive; */
 }
-footer .social-media{
+/* footer .social-media{
 	margin: 20px 0;
-}
+} */
 
 footer .social-media a{
 	color: #001a21;
@@ -468,7 +562,7 @@ footer input::placeholder {
 }
 footer .txtb {
 	flex: 1;
-	padding: 18px 40px;
+	padding: 18px 40px 18px 20px;
 	font-size: 16px;
 	background: #343A40;
 	border: none;
@@ -499,24 +593,87 @@ footer .btn:hover {
 	opacity: .7;
 }
 
+.footer-logo {
+	width: 500px;
+}
+
 
 /*For Responsive Website*/
 @media screen and (max-width: 960px) {
+	.nav .search .srch {
+		width: 370px;
+		padding-top: 20px;
+	} 
+
+	#srchbtn {
+		margin-top: 10px;
+	}
+
+	#srchbtn img {
+		margin-top: 1px;
+	}
+
+	.sample , .ccardbox2 , .click-me {
+		margin-right: -108px;
+	}
+
 	.footer-container {
 		max-width: 600px;
 	}
+
 	.right-col {
 		width: 100%;
-		margin-bottom: 60px;
+		margin-bottom: 30px;
 	}
+
 	.left-col {
 		width: 100%;
 		text-align: center;
 	}
+
 	.social-media {
 		display: flex;
 		justify-content: center;
 	}
+	
+	.ccardbox{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		flex-direction: column;
+	}
+
+	.title span {
+		font-size: 52px;
+	}
+
+	.course {
+		margin-left: 55px;
+		margin-right: -40px;
+	}
+
+	footer{
+		margin-right: -108px;
+	}
+
+	#footer-how-logo {
+		width: 100%;
+	}
+
+	.inbt {
+		padding: 10px 0 10px 0;
+    	margin: 50px 50px 0 50px;
+    	margin-bottom: 50px 
+	}
+
+	.ccard {
+		margin-right: -108px;
+	}
+
+	.footer-logo {
+		width: 100%;
+	}
+
 }
 
 @media screen and (max-width: 700px) {
@@ -544,7 +701,7 @@ footer .btn:hover {
 	}
 	.nav ul li{
 		width: 100%;
-		margin-bottom: 5px;
+		margin-bottom: 4px;
 	}
 	.nav .switch-tab {
 		visibility: visible;
@@ -558,3 +715,5 @@ footer .btn:hover {
 		margin-top: 0px;
 	}
 }
+
+
