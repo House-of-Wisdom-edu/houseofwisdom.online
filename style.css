@@ -137,24 +137,28 @@ button {
 }
 
 /* Quote styles */
+
+.quote {
+  width: 600px;
+  transform: translateY(-50px);
+}
+
 .quote h5 {
   margin-top: 20px;
   color: #0009;
   line-height: 20px;
-  padding: 0 50px 0 50px;
 }
 
 .quote p {
   font-size: 50px;
   color: #2e2e2e;
-  padding: 0 50px 0 50px;
 }
 
 .quote .play {
   margin-top: 20px;
   display: flex;
+  /* justify-content: center; */
   align-items: center;
-  padding: 0 50px 0 50px;
 }
 
 .quote .play img {
@@ -285,7 +289,8 @@ button {
   font-size: 50px;
   text-align: center;
   color: #fff;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7)), url("images/extra/animated.gif");
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7)),
+    url("images/extra/animated.gif");
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -417,7 +422,8 @@ button {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7)), url("images/extra/animated.gif");
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7)),
+    url("images/extra/animated.gif");
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -440,7 +446,8 @@ button {
   text-align: center;
   width: 350px;
   height: 200px;
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05), 0 0 50px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05),
+    0 0 50px rgba(0, 0, 0, 0.8);
   border-radius: 5px;
   cursor: pointer;
   transition-duration: 0.5s;
@@ -673,6 +680,21 @@ footer .btn:hover {
     margin: auto;
   }
 
+  .quote h5 {
+    padding: 0 35px;
+  }
+
+  .quote .play {
+    padding: 0 35px;
+  }
+
+  .quote p,
+	.quote h5,
+	.play {
+		justify-content: center;
+		text-align: center;
+	}
+
   .cc {
     height: auto;
     width: 90%;
@@ -741,15 +763,8 @@ footer .btn:hover {
     padding-left: 0;
   }
 
-  .quote p,
-  .quote h5,
-  .play {
-    justify-content: center;
-    text-align: center;
-  }
-
   .quote p {
-    font-size: 20px;
+    font-size: 30px;
   }
 
   .service-container .right-side img {
