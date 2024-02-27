@@ -54,9 +54,10 @@ function register() {
   x.style.left = "-400px";
   y.style.left = "50px";
   z.style.left = "100px";
-  w.style.visibility = "hidden";
+  w.style.visibility = "visible"
   b.style.color = "#fff";
   a.style.color = "#000";
+  w.style.left = "-400px";
 }
 
 function login() {
@@ -66,6 +67,7 @@ function login() {
   w.style.visibility = "visible";
   a.style.color = "#fff";
   b.style.color = "#000";
+  w.style.left = "0px"; // Slide in the "Sign in with Google" button
 }
 
 // CheckBox Function
