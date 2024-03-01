@@ -19,6 +19,12 @@ console.log("hii")
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
+const setCookie = (name, value, days) => {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/; secure; HttpOnly`;
+};
+
 document.getElementById("btnSubmit").addEventListener("click", function () {
     event.preventDefault();
     var email = document.getElementById("registerEmail").value;
@@ -48,7 +54,8 @@ document.getElementById("btnSubmit").addEventListener("click", function () {
             console.log(error.message)
         })
         alert("Registration successful");
-        window.location.href = 'index.html?authToken=' + authToken;
+        setCookie("authToken", authToken, 7)
+        window.location.href = 'index.html';
     }).catch((err) => {
         const errorCode = err.code;
         const errorMessage = err.message;
@@ -68,7 +75,9 @@ document.getElementById("btnLogIn").addEventListener("click", function () {
         const authToken = await userCredential.user.getIdToken(); // Get the authentication token
         localStorage.setItem('authToken', authToken);
         alert(user.email + " Login Successfully");
-        window.location.href = 'index.html?authToken=' + authToken;
+        setCookie("authToken", authToken, 7)
+        window.location.href = 'index.html';
+
     }).catch((err) => {
         const errorCode = err.code;
         const errorMessage = err.message;
@@ -84,22 +93,22 @@ document.getElementById("btnGoogleLogin").addEventListener("click", async () => 
             const user = result.user;
             const authToken = await user.getIdToken();
             // Decode the JWT token to get the payload
-            const tokenParts = authToken.split('.');
-            const encodedPayload = tokenParts[1];
-            const decodedPayload = atob(encodedPayload);
-            const payload = JSON.parse(decodedPayload);
+            // const tokenParts = authToken.split('.');
+            // const encodedPayload = tokenParts[1];
+            // const decodedPayload = atob(encodedPayload);
+            // const payload = JSON.parse(decodedPayload);
 
             // Check if the payload includes an 'exp' claim (expiration time)
-            if (payload.exp) {
-                const expirationTimestamp = payload.exp; // This is the expiration time in seconds since the Unix epoch
-                const expirationDate = new Date(expirationTimestamp * 1000); // Convert to a JavaScript Date object (in milliseconds)
-                document.cookie = `authToken=${authToken}; expires=${expirationDate.toUTCString()}; path=/; secure; HttpOnly`;
-            } else {
-                console.log("Token does not contain an 'exp' claim.");
-            }
+            // if (payload.exp) {
+            //     const expirationTimestamp = payload.exp; // This is the expiration time in seconds since the Unix epoch
+            //     const expirationDate = new Date(expirationTimestamp * 1000); // Convert to a JavaScript Date object (in milliseconds)
+            //     document.cookie = `authToken=${authToken}; expires=${expirationDate.toUTCString()}; path=/; secure; HttpOnly`;
+            // } else {
+            //     console.log("Token does not contain an 'exp' claim.");
+            // }
 
 
-            localStorage.setItem('authToken', authToken);
+            // localStorage.setItem('authToken', authToken);
             const userId = user.uid;
             const fullName = user.displayName;
             const email = user.email;
@@ -118,7 +127,8 @@ document.getElementById("btnGoogleLogin").addEventListener("click", async () => 
             alert(`${fullName} Login Successfully`)
 
             // Redirect to the next page with the authToken as a query parameter
-            window.location.href = 'index.html?authToken=' + authToken;
+            setCookie("authToken", authToken, 7)
+            window.location.href = 'index.html';
 
 
         }).catch((error) => {
