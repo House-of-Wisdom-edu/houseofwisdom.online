@@ -57,7 +57,7 @@ function register() {
   w.style.visibility = "visible"
   b.style.color = "#fff";
   a.style.color = "#000";
-  w.style.left = "-400px";
+  w.style.left = "-450px";
 }
 
 function login() {
